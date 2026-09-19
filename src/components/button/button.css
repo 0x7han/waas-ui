@@ -1,0 +1,130 @@
+/* waas-button — component-scoped override points default to semantic vars.
+ * Consumers re-point --waas-button-* per subtree; never touch source. */
+
+@layer waas.components {
+  .waas-button {
+    --waas-button-bg: var(--waas-surface-solid, #6d28d9);
+    --waas-button-fg: var(--waas-on-accent, #fff);
+    --waas-button-border: transparent;
+    --waas-button-bg-hover: var(--waas-surface-solid-hover, #5b21b6);
+    --waas-button-radius: var(--waas-radius-lg, 8px);
+    --waas-button-height: 2.5rem;
+    --waas-button-padding: 0 var(--waas-space-lg, 16px);
+    --waas-button-gap: var(--waas-space-sm, 8px);
+    --waas-button-font: var(--waas-weight-semibold, 600) var(--waas-fs-body, 0.9375rem) /
+      var(--waas-lh-base, 1.5) var(--waas-font-sans, system-ui, sans-serif);
+
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--waas-button-gap);
+    height: var(--waas-button-height);
+    padding: var(--waas-button-padding);
+    font: var(--waas-button-font);
+    color: var(--waas-button-fg);
+    background: var(--waas-button-bg);
+    border: 1px solid var(--waas-button-border);
+    border-radius: var(--waas-button-radius);
+    cursor: pointer;
+    transition:
+      background var(--waas-duration-base, 200ms) var(--waas-ease-standard, ease),
+      border-color var(--waas-duration-base, 200ms) var(--waas-ease-standard, ease),
+      color var(--waas-duration-base, 200ms) var(--waas-ease-standard, ease);
+  }
+
+  .waas-button:hover {
+    background: var(--waas-button-bg-hover);
+  }
+
+  .waas-button:active {
+    transform: translateY(1px);
+  }
+
+  .waas-button:focus-visible {
+    outline: 2px solid var(--waas-ring, #7e86f8);
+    outline-offset: 2px;
+  }
+
+  .waas-button:disabled,
+  .waas-button[data-disabled="true"],
+  .waas-button[data-loading="true"] {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  .waas-button[data-variant="secondary"] {
+    --waas-button-bg: var(--waas-surface, #f0f0f4);
+    --waas-button-fg: var(--waas-text, #1c1c22);
+    --waas-button-bg-hover: var(--waas-surface-hover, #e8e8ee);
+  }
+
+  .waas-button[data-variant="outline"] {
+    --waas-button-bg: transparent;
+    --waas-button-fg: var(--waas-text, #1c1c22);
+    --waas-button-border: var(--waas-border, #cdccd6);
+    --waas-button-bg-hover: var(--waas-surface, #f0f0f4);
+  }
+
+  .waas-button[data-variant="ghost"] {
+    --waas-button-bg: transparent;
+    --waas-button-fg: var(--waas-text, #1c1c22);
+    --waas-button-bg-hover: var(--waas-surface, #f0f0f4);
+  }
+
+  .waas-button[data-variant="destructive"] {
+    --waas-button-bg: var(--waas-danger-9, #dc2626);
+    --waas-button-fg: var(--waas-on-danger, #fff);
+    --waas-button-bg-hover: var(--waas-danger-10, #b91c1c);
+  }
+
+  .waas-button[data-variant="link"] {
+    --waas-button-bg: transparent;
+    --waas-button-fg: var(--waas-accent-11, #4c1d95);
+    --waas-button-bg-hover: transparent;
+    height: auto;
+    padding: 0;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .waas-button [data-waas-icon-slot] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+  }
+
+  .waas-button [data-waas-icon-slot] svg {
+    width: 1.1em;
+    height: 1.1em;
+  }
+
+  .waas-icon-button {
+    width: var(--waas-button-height);
+    padding: 0;
+  }
+
+  .waas-spinner {
+    width: 1.1em;
+    height: 1.1em;
+    flex: none;
+    animation: waas-spin var(--waas-duration-slower, 500ms) linear infinite;
+  }
+
+  @keyframes waas-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .waas-button:active {
+    transform: none;
+  }
+
+  .waas-spinner {
+    animation: none;
+  }
+}

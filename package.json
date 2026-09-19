@@ -22,6 +22,17 @@
     "./tokens.css": "./dist/tokens.css",
     "./theme.css": "./dist/theme.css",
     "./theme": "./dist/theme.css",
+    "./button": {
+      "import": {
+        "types": "./dist/button.d.ts",
+        "default": "./dist/button.js"
+      },
+      "require": {
+        "types": "./dist/button.d.cts",
+        "default": "./dist/button.cjs"
+      }
+    },
+    "./button/style.css": "./dist/button.css",
     "./package.json": "./package.json"
   },
   "scripts": {
@@ -37,7 +48,8 @@
   },
   "dependencies": {
     "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "react-dom": "^19.2.8",
+    "@radix-ui/react-slot": "1.3.3"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",

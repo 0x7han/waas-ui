@@ -1,10 +1,9 @@
 import { defineConfig } from "tsdown";
 
 export default defineConfig({
-  // Root barrel today; per-component keys follow the research sketch
-  // ('button': 'src/components/button/index.ts', ...) or a glob entry
-  // once src/components/* exists — see docs/research/npm-packaging.md §4.3.
-  entry: ["src/index.ts", "src/components/*/index.ts"],
+  // Explicit per-component keys per docs/research/npm-packaging.md §4.3:
+  // each key controls its dist output name (button -> dist/button.js).
+  entry: { index: "src/index.ts", button: "src/components/button/index.ts" },
   format: ["esm", "cjs"],
   dts: { build: true },
   deps: { neverBundle: ["react", "react-dom", /^@radix-ui\//] },

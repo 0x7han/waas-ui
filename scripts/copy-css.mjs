@@ -7,8 +7,10 @@ import { join } from "node:path";
 const root = new URL("..", import.meta.url).pathname;
 mkdirSync(join(root, "dist"), { recursive: true });
 
-for (const file of readdirSync(join(root, "src", "tokens"))) {
-  if (file.endsWith(".css")) {
-    copyFileSync(join(root, "src", "tokens", file), join(root, "dist", file));
+for (const dir of ["src/tokens", "src/components/button"]) {
+  for (const file of readdirSync(join(root, dir))) {
+    if (file.endsWith(".css")) {
+      copyFileSync(join(root, dir, file), join(root, "dist", file));
+    }
   }
 }
