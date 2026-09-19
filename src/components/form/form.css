@@ -1,0 +1,149 @@
+/* waas-form — component-scoped override points default to semantic vars.
+ * Consumers re-point --waas-form-* / --waas-input-* / --waas-field-* per subtree; never touch source. */
+
+@layer waas.components {
+  .waas-form {
+    --waas-form-gap: var(--waas-space-lg, 16px);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--waas-form-gap);
+  }
+
+  .waas-field {
+    --waas-field-gap: var(--waas-space-xs, 4px);
+    --waas-field-label-fg: var(--waas-text, #1c1c22);
+    --waas-field-label-font: var(--waas-weight-medium, 500) var(--waas-fs-body, 0.9375rem) /
+      var(--waas-lh-base, 1.5) var(--waas-font-sans, system-ui, sans-serif);
+    --waas-field-hint-fg: var(--waas-text-muted, #6b6a76);
+    --waas-field-hint-font: var(--waas-fs-small, 0.8125rem) /
+      var(--waas-lh-base, 1.5) var(--waas-font-sans, system-ui, sans-serif);
+    --waas-field-error-fg: var(--waas-danger-11, #b91c1c);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--waas-field-gap);
+  }
+
+  .waas-field-label {
+    font: var(--waas-field-label-font);
+    color: var(--waas-field-label-fg);
+  }
+
+  .waas-field-label [data-waas-required-marker] {
+    color: var(--waas-field-error-fg);
+  }
+
+  .waas-field-description {
+    margin: 0;
+    font: var(--waas-field-hint-font);
+    color: var(--waas-field-hint-fg);
+  }
+
+  .waas-field-error {
+    margin: 0;
+    font: var(--waas-field-hint-font);
+    color: var(--waas-field-error-fg);
+  }
+
+  .waas-input,
+  .waas-textarea {
+    --waas-input-bg: var(--waas-surface, #fff);
+    --waas-input-fg: var(--waas-text, #1c1c22);
+    --waas-input-border: var(--waas-border, #cdccd6);
+    --waas-input-border-focus: var(--waas-accent-9, #6d28d9);
+    --waas-input-border-invalid: var(--waas-danger-9, #dc2626);
+    --waas-input-radius: var(--waas-radius-md, 6px);
+    --waas-input-height: 2.5rem;
+    --waas-input-padding: 0 var(--waas-space-md, 12px);
+    --waas-input-font: var(--waas-fs-body, 0.9375rem) / var(--waas-lh-base, 1.5)
+      var(--waas-font-sans, system-ui, sans-serif);
+
+    width: 100%;
+    font: var(--waas-input-font);
+    color: var(--waas-input-fg);
+    background: var(--waas-input-bg);
+    border: 1px solid var(--waas-input-border);
+    border-radius: var(--waas-input-radius);
+  }
+
+  .waas-input {
+    height: var(--waas-input-height);
+    padding: var(--waas-input-padding);
+  }
+
+  .waas-textarea {
+    min-height: calc(var(--waas-input-height) * 2);
+    padding: var(--waas-space-md, 12px);
+    resize: vertical;
+  }
+
+  .waas-input:focus-visible,
+  .waas-textarea:focus-visible {
+    outline: 2px solid var(--waas-ring, #7e86f8);
+    outline-offset: -1px;
+    border-color: var(--waas-input-border-focus);
+  }
+
+  .waas-input[data-invalid="true"],
+  .waas-textarea[data-invalid="true"] {
+    border-color: var(--waas-input-border-invalid);
+  }
+
+  .waas-input[data-valid="true"] {
+    border-color: var(--waas-success-9, #16a34a);
+  }
+
+  .waas-input:disabled,
+  .waas-textarea:disabled,
+  .waas-input[data-disabled="true"],
+  .waas-textarea[data-disabled="true"],
+  .waas-input[data-loading="true"],
+  .waas-textarea[data-loading="true"] {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  .waas-input-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--waas-space-sm, 8px);
+    width: 100%;
+  }
+
+  .waas-input-wrapper .waas-input {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .waas-input-wrapper [data-waas-icon-slot] {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    color: var(--waas-field-hint-fg);
+  }
+
+  .waas-input-wrapper [data-waas-icon-slot] svg,
+  .waas-input-spinner {
+    width: 1.1em;
+    height: 1.1em;
+  }
+
+  .waas-input-spinner {
+    flex: none;
+    animation: waas-form-spin var(--waas-duration-slower, 500ms) linear infinite;
+  }
+
+  @keyframes waas-form-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .waas-input-spinner {
+    animation: none;
+  }
+}

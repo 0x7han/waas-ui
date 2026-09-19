@@ -1,0 +1,499 @@
+/* waas-navigation — component-scoped override points default to semantic vars.
+ * Consumers re-point --waas-nav-* / --waas-sidebar-* per subtree; never touch source.
+ * Presets respond to breakpoint tokens: icon-rail below tablet, drawer below mobile
+ * unless the consumer pins data-preset explicitly (attribute always wins).
+ */
+
+@layer waas.components {
+  .waas-sidebar {
+    --waas-sidebar-bg: var(--waas-bg-subtle, #f9f9fb);
+    --waas-sidebar-fg: var(--waas-text, #1c1c22);
+    --waas-sidebar-fg-subtle: var(--waas-text-subtle, #5f606e);
+    --waas-sidebar-border: var(--waas-border, #cdccd6);
+    --waas-sidebar-width: 16rem;
+    --waas-sidebar-rail-width: 4rem;
+    --waas-sidebar-gap: var(--waas-space-sm, 8px);
+    --waas-sidebar-padding: var(--waas-space-md, 12px);
+    --waas-sidebar-radius: var(--waas-radius-md, 6px);
+    --waas-sidebar-item-bg: transparent;
+    --waas-sidebar-item-bg-hover: var(--waas-surface, #f0f0f4);
+    --waas-sidebar-item-bg-active: var(--waas-accent-3, #eceeff);
+    --waas-sidebar-item-fg-active: var(--waas-accent-11, #4c1d95);
+    --waas-sidebar-font: var(--waas-weight-medium, 500) var(--waas-fs-body, 0.9375rem) /
+      var(--waas-lh-base, 1.5) var(--waas-font-sans, system-ui, sans-serif);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--waas-sidebar-gap);
+    width: var(--waas-sidebar-width);
+    min-height: 100%;
+    padding: var(--waas-sidebar-padding);
+    color: var(--waas-sidebar-fg);
+    background: var(--waas-sidebar-bg);
+    border-right: 1px solid var(--waas-sidebar-border);
+    font: var(--waas-sidebar-font);
+  }
+
+  .waas-sidebar[data-preset="collapsed"],
+  .waas-sidebar[data-collapsed="true"] {
+    width: var(--waas-sidebar-rail-width);
+  }
+
+  .waas-sidebar[data-preset="icon-rail"] {
+    width: var(--waas-sidebar-rail-width);
+  }
+
+  .waas-sidebar[data-preset="icon-rail"] [data-waas-sidebar-label],
+  .waas-sidebar[data-preset="icon-rail"] [data-waas-sidebar-badge],
+  .waas-sidebar[data-preset="icon-rail"] [data-waas-sidebar-group-title],
+  .waas-sidebar[data-collapsed="true"] [data-waas-sidebar-label],
+  .waas-sidebar[data-collapsed="true"] [data-waas-sidebar-badge],
+  .waas-sidebar[data-collapsed="true"] [data-waas-sidebar-group-title] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .waas-sidebar[data-preset="mobile-drawer"] {
+    width: min(var(--waas-sidebar-width), 85vw);
+    border-right: 1px solid var(--waas-sidebar-border);
+    box-shadow: var(--waas-elevation-lg, 0 8px 16px 6px rgb(0 0 0 / 0.1));
+  }
+
+  .waas-sidebar[data-preset="mobile-drawer"][data-open="false"] {
+    display: none;
+  }
+
+  .waas-sidebar-header,
+  .waas-sidebar-footer {
+    display: flex;
+    align-items: center;
+    gap: var(--waas-sidebar-gap);
+    padding: var(--waas-space-sm, 8px) var(--waas-space-sm, 8px);
+  }
+
+  .waas-sidebar-header {
+    font: var(--waas-font-title, 600 1.125rem / 1.5 system-ui, sans-serif);
+  }
+
+  .waas-sidebar-footer {
+    margin-top: auto;
+    border-top: 1px solid var(--waas-sidebar-border);
+    color: var(--waas-sidebar-fg-subtle);
+    font: var(--waas-font-caption, 400 0.75rem / 1.5 system-ui, sans-serif);
+  }
+
+  .waas-sidebar-group {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .waas-sidebar-group [data-waas-sidebar-group-title] {
+    padding: var(--waas-space-xs, 4px) var(--waas-space-sm, 8px);
+    color: var(--waas-sidebar-fg-subtle);
+    font: var(--waas-font-overline, 600 0.6875rem / 1.5 system-ui, sans-serif);
+    letter-spacing: var(--waas-tracking-wide, 0.06em);
+    text-transform: uppercase;
+  }
+
+  .waas-sidebar-trigger {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2rem;
+    height: 2rem;
+    padding: 0 var(--waas-space-sm, 8px);
+    color: inherit;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--waas-sidebar-radius);
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .waas-sidebar-trigger:hover {
+    background: var(--waas-sidebar-item-bg-hover);
+  }
+
+  .waas-sidebar-trigger:focus-visible {
+    outline: 2px solid var(--waas-ring, #7e86f8);
+    outline-offset: 2px;
+  }
+
+  .waas-sidebar-item {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--waas-sidebar-gap);
+    width: 100%;
+    padding: var(--waas-space-sm, 8px) var(--waas-space-sm, 8px);
+    color: inherit;
+    background: var(--waas-sidebar-item-bg);
+    border: 1px solid transparent;
+    border-radius: var(--waas-sidebar-radius);
+    font: inherit;
+    text-align: start;
+    cursor: pointer;
+    transition:
+      background var(--waas-duration-base, 200ms) var(--waas-ease-standard, ease),
+      color var(--waas-duration-base, 200ms) var(--waas-ease-standard, ease);
+  }
+
+  .waas-sidebar-item:hover {
+    background: var(--waas-sidebar-item-bg-hover);
+  }
+
+  .waas-sidebar-item:focus-visible {
+    outline: 2px solid var(--waas-ring, #7e86f8);
+    outline-offset: 2px;
+  }
+
+  .waas-sidebar-item[data-active="true"] {
+    color: var(--waas-sidebar-item-fg-active);
+    background: var(--waas-sidebar-item-bg-active);
+  }
+
+  .waas-sidebar-item [data-waas-icon-slot] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+  }
+
+  .waas-sidebar-item [data-waas-icon-slot] svg {
+    width: 1.1em;
+    height: 1.1em;
+  }
+
+  .waas-sidebar-item [data-waas-sidebar-label] {
+    flex: 1 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .waas-sidebar-item [data-waas-sidebar-badge] {
+    display: inline-flex;
+    align-items: center;
+    min-width: 1.5em;
+    justify-content: center;
+    padding: 0 var(--waas-space-xs, 4px);
+    color: var(--waas-sidebar-fg-subtle);
+    background: var(--waas-surface, #f0f0f4);
+    border-radius: var(--waas-radius-full, 1e5px);
+    font: var(--waas-font-caption, 400 0.75rem / 1.5 system-ui, sans-serif);
+  }
+
+  .waas-sidebar-item[data-active="true"] [data-waas-sidebar-badge] {
+    color: var(--waas-sidebar-item-fg-active);
+  }
+
+  .waas-sidebar-workspace,
+  .waas-sidebar-user {
+    display: flex;
+    align-items: center;
+    gap: var(--waas-sidebar-gap);
+    padding: var(--waas-space-sm, 8px) var(--waas-space-sm, 8px);
+    border-radius: var(--waas-sidebar-radius);
+  }
+
+  .waas-sidebar-workspace [data-waas-icon-slot],
+  .waas-sidebar-user [data-waas-icon-slot] {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .waas-sidebar-workspace [data-waas-icon-slot] svg,
+  .waas-sidebar-user [data-waas-icon-slot] svg {
+    width: 1.75em;
+    height: 1.75em;
+  }
+
+  .waas-sidebar-workspace-text,
+  .waas-sidebar-user-text,
+  [data-waas-sidebar-workspace-text],
+  [data-waas-sidebar-user-text] {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  [data-waas-sidebar-workspace-name],
+  [data-waas-sidebar-user-name] {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: var(--waas-weight-semibold, 600);
+  }
+
+  [data-waas-sidebar-workspace-description],
+  [data-waas-sidebar-user-email] {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--waas-sidebar-fg-subtle);
+    font: var(--waas-font-caption, 400 0.75rem / 1.5 system-ui, sans-serif);
+  }
+
+  .waas-navbar {
+    --waas-navbar-bg: var(--waas-bg, #fcfcfd);
+    --waas-navbar-fg: var(--waas-text, #1c1c22);
+    --waas-navbar-border: var(--waas-border, #cdccd6);
+    --waas-navbar-height: 3.5rem;
+    --waas-navbar-gap: var(--waas-space-lg, 16px);
+    --waas-navbar-padding: 0 var(--waas-space-lg, 16px);
+
+    display: flex;
+    align-items: center;
+    gap: var(--waas-navbar-gap);
+    min-height: var(--waas-navbar-height);
+    padding: var(--waas-navbar-padding);
+    color: var(--waas-navbar-fg);
+    background: var(--waas-navbar-bg);
+    border-bottom: 1px solid var(--waas-navbar-border);
+  }
+
+  .waas-navbar-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--waas-space-sm, 8px);
+    font: var(--waas-font-title, 600 1.125rem / 1.5 system-ui, sans-serif);
+  }
+
+  .waas-navbar-brand [data-waas-icon-slot] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .waas-navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--waas-space-sm, 8px);
+  }
+
+  .waas-navbar-link {
+    padding: var(--waas-space-xs, 4px) var(--waas-space-sm, 8px);
+    color: inherit;
+    border-radius: var(--waas-radius-md, 6px);
+    text-decoration: none;
+  }
+
+  .waas-navbar-link:hover {
+    background: var(--waas-surface, #f0f0f4);
+  }
+
+  .waas-navbar-link:focus-visible {
+    outline: 2px solid var(--waas-ring, #7e86f8);
+    outline-offset: 2px;
+  }
+
+  .waas-navbar-link[data-active="true"] {
+    color: var(--waas-accent-11, #4c1d95);
+    background: var(--waas-accent-3, #eceeff);
+  }
+
+  .waas-navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--waas-space-sm, 8px);
+    margin-left: auto;
+  }
+
+  .waas-breadcrumb {
+    --waas-breadcrumb-fg: var(--waas-text-subtle, #5f606e);
+    --waas-breadcrumb-fg-current: var(--waas-text, #1c1c22);
+    --waas-breadcrumb-gap: var(--waas-space-sm, 8px);
+    --waas-breadcrumb-font: var(--waas-font-body-sm, 400 0.8125rem / 1.5 system-ui, sans-serif);
+
+    color: var(--waas-breadcrumb-fg);
+    font: var(--waas-breadcrumb-font);
+  }
+
+  .waas-breadcrumb-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--waas-breadcrumb-gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .waas-breadcrumb-item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--waas-breadcrumb-gap);
+  }
+
+  .waas-breadcrumb-link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .waas-breadcrumb-link:hover {
+    color: var(--waas-breadcrumb-fg-current);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .waas-breadcrumb-link:focus-visible {
+    outline: 2px solid var(--waas-ring, #7e86f8);
+    outline-offset: 2px;
+  }
+
+  .waas-breadcrumb-current {
+    color: var(--waas-breadcrumb-fg-current);
+    font-weight: var(--waas-weight-medium, 500);
+  }
+
+  .waas-breadcrumb-separator {
+    color: var(--waas-border-strong, #b9b8c4);
+    user-select: none;
+  }
+
+  .waas-tabs {
+    --waas-tabs-fg: var(--waas-text-subtle, #5f606e);
+    --waas-tabs-fg-active: var(--waas-text, #1c1c22);
+    --waas-tabs-border: var(--waas-border, #cdccd6);
+    --waas-tabs-indicator: var(--waas-surface-solid, #6d28d9);
+    --waas-tabs-gap: var(--waas-space-xs, 4px);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--waas-space-md, 12px);
+  }
+
+  .waas-tabs-list {
+    display: flex;
+    align-items: center;
+    gap: var(--waas-tabs-gap);
+    border-bottom: 1px solid var(--waas-tabs-border);
+  }
+
+  .waas-tabs-trigger {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--waas-space-sm, 8px);
+    padding: var(--waas-space-sm, 8px) var(--waas-space-md, 12px);
+    color: var(--waas-tabs-fg);
+    background: transparent;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    font: var(--waas-weight-medium, 500) var(--waas-fs-body, 0.9375rem) / var(--waas-lh-base, 1.5)
+      var(--waas-font-sans, system-ui, sans-serif);
+    cursor: pointer;
+  }
+
+  .waas-tabs-trigger:hover {
+    color: var(--waas-tabs-fg-active);
+  }
+
+  .waas-tabs-trigger:focus-visible {
+    outline: 2px solid var(--waas-ring, #7e86f8);
+    outline-offset: 2px;
+  }
+
+  .waas-tabs-trigger[data-state="active"] {
+    color: var(--waas-tabs-fg-active);
+    border-bottom-color: var(--waas-tabs-indicator);
+  }
+
+  .waas-tabs-trigger [data-waas-icon-slot] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .waas-tabs-content:focus-visible {
+    outline: 2px solid var(--waas-ring, #7e86f8);
+    outline-offset: 2px;
+  }
+
+  .waas-pagination {
+    --waas-pagination-fg: var(--waas-text, #1c1c22);
+    --waas-pagination-bg-active: var(--waas-surface-solid, #6d28d9);
+    --waas-pagination-fg-active: var(--waas-on-accent, #fff);
+    --waas-pagination-gap: var(--waas-space-xs, 4px);
+
+    display: flex;
+    align-items: center;
+    gap: var(--waas-space-md, 12px);
+  }
+
+  .waas-pagination-pages {
+    display: flex;
+    align-items: center;
+    gap: var(--waas-pagination-gap);
+  }
+
+  .waas-pagination-page,
+  .waas-pagination-prev,
+  .waas-pagination-next {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2rem;
+    height: 2rem;
+    padding: 0 var(--waas-space-sm, 8px);
+    color: var(--waas-pagination-fg);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--waas-radius-md, 6px);
+    font: var(--waas-font-body-sm, 400 0.8125rem / 1.5 system-ui, sans-serif);
+    cursor: pointer;
+  }
+
+  .waas-pagination-page:hover,
+  .waas-pagination-prev:hover,
+  .waas-pagination-next:hover {
+    background: var(--waas-surface, #f0f0f4);
+  }
+
+  .waas-pagination-page:focus-visible,
+  .waas-pagination-prev:focus-visible,
+  .waas-pagination-next:focus-visible {
+    outline: 2px solid var(--waas-ring, #7e86f8);
+    outline-offset: 2px;
+  }
+
+  .waas-pagination-page[data-current="true"] {
+    color: var(--waas-pagination-fg-active);
+    background: var(--waas-pagination-bg-active);
+  }
+
+  .waas-pagination-page:disabled,
+  .waas-pagination-prev:disabled,
+  .waas-pagination-next:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  [data-waas-pagination-ellipsis] {
+    padding: 0 var(--waas-space-xs, 4px);
+    color: var(--waas-text-subtle, #5f606e);
+    user-select: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .waas-sidebar-item,
+  .waas-sidebar-trigger,
+  .waas-navbar-link,
+  .waas-tabs-trigger,
+  .waas-pagination-page,
+  .waas-pagination-prev,
+  .waas-pagination-next {
+    transition: none;
+  }
+}
