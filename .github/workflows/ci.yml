@@ -21,7 +21,7 @@ jobs:
       - run: npm run build
       - run: npm test -- --run
       - run: npx publint
-      - run: npx attw --pack .
+      - run: npx attw --pack . --entrypoints .
 
   smoke:
     runs-on: ubuntu-latest
@@ -34,12 +34,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
-      - run: npm run build --ignore-scripts || npm run build
+      - run: npm ci --ignore-scripts
+      - run: npm run build
+        env:
+          PATH: ${{ github.workspace }}/node_modules/.bin:${{ env.PATH }}
       - run: |
           TARBALL=$(npm pack --silent | tail -n 1)
           DIR=$(mktemp -d)
           tar -xzf "$TARBALL" -C "$DIR"
-          node --input-type=module -e "import('waas-ui', { with: { }).catch?.(() => {})" 2>/dev/null || true
+          ln -sfn "$GITHUB_WORKSPACE/node_modules" "$DIR/node_modules"
           node --input-type=module -e "import { WAAS_UI_VERSION } from '$DIR/package/dist/index.js'; if (WAAS_UI_VERSION !== '0.1.0') throw new Error('bad ESM version');"
           node -e "const m = require('$DIR/package/dist/index.cjs'); if (m.WAAS_UI_VERSION !== '0.1.0') throw new Error('bad CJS version');"
+          test -f "$DIR/package/dist/tokens.css" && test -f "$DIR/package/dist/theme.css"
           rm -rf "$DIR" "$TARBALL"

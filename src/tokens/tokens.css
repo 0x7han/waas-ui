@@ -1,0 +1,227 @@
+/* waas-ui design tokens — Vanilla CSS + CSS variables.
+ * 3 layers: primitive palette (swappable) -> semantic roles -> state aliases.
+ * Components consume semantic vars only; never raw palette steps.
+ * Defaults at zero specificity (:where(:root)) inside ordered @layer waas.*,
+ * so consumer stylesheets and variable re-definitions win without !important.
+ */
+
+@layer waas.tokens, waas.base, waas.components, waas.utilities;
+
+@layer waas.tokens {
+  :where(:root) {
+    /* ---------- primitive palettes (12-step functional grammar) ---------- */
+    --waas-gray-1: #fcfcfd;
+    --waas-gray-2: #f9f9fb;
+    --waas-gray-3: #f0f0f4;
+    --waas-gray-4: #e8e8ee;
+    --waas-gray-5: #e0e0e8;
+    --waas-gray-6: #d9d9e0;
+    --waas-gray-7: #cdccd6;
+    --waas-gray-8: #b9b8c4;
+    --waas-gray-9: #8b8d9b;
+    --waas-gray-10: #767787;
+    --waas-gray-11: #5f606e;
+    --waas-gray-12: #1c1c22;
+
+    --waas-accent-1: #fdfdff;
+    --waas-accent-2: #f7f7ff;
+    --waas-accent-3: #eceeff;
+    --waas-accent-4: #dee1ff;
+    --waas-accent-5: #cdd2ff;
+    --waas-accent-6: #b7beff;
+    --waas-accent-7: #9aa3ff;
+    --waas-accent-8: #7e86f8;
+    --waas-accent-9: #6d28d9;
+    --waas-accent-10: #5b21b6;
+    --waas-accent-11: #4c1d95;
+    --waas-accent-12: #2e1065;
+
+    --waas-success-1: #fbfefc;
+    --waas-success-2: #f4fbf6;
+    --waas-success-3: #e6f6eb;
+    --waas-success-4: #d6f0df;
+    --waas-success-5: #c2e7d0;
+    --waas-success-6: #a4d9bd;
+    --waas-success-7: #7cc79c;
+    --waas-success-8: #4dad7f;
+    --waas-success-9: #30a46c;
+    --waas-success-10: #2b9364;
+    --waas-success-11: #22795a;
+    --waas-success-12: #1a2e22;
+
+    --waas-warning-1: #fefdfb;
+    --waas-warning-2: #fefbe9;
+    --waas-warning-3: #fef4c8;
+    --waas-warning-4: #fdeba4;
+    --waas-warning-5: #fddf7d;
+    --waas-warning-6: #f9cf55;
+    --waas-warning-7: #eab308;
+    --waas-warning-8: #ca8a04;
+    --waas-warning-9: #f5c518;
+    --waas-warning-10: #d9a90f;
+    --waas-warning-11: #7a5c00;
+    --waas-warning-12: #3b2e00;
+
+    --waas-danger-1: #fffcfc;
+    --waas-danger-2: #fff7f7;
+    --waas-danger-3: #feebec;
+    --waas-danger-4: #ffdbdc;
+    --waas-danger-5: #ffcdce;
+    --waas-danger-6: #f3b8b9;
+    --waas-danger-7: #e89da0;
+    --waas-danger-8: #d67f83;
+    --waas-danger-9: #dc2626;
+    --waas-danger-10: #b91c1c;
+    --waas-danger-11: #7f1d1d;
+    --waas-danger-12: #381313;
+
+    --waas-info-1: #fbfdff;
+    --waas-info-2: #f4faff;
+    --waas-info-3: #e6f4fe;
+    --waas-info-4: #d5efff;
+    --waas-info-5: #c2e5ff;
+    --waas-info-6: #acd8fc;
+    --waas-info-7: #8ec8f6;
+    --waas-info-8: #5eb1ef;
+    --waas-info-9: #0090ff;
+    --waas-info-10: #0588f0;
+    --waas-info-11: #0d74ce;
+    --waas-info-12: #113555;
+
+    /* ---------- semantic roles: surfaces ---------- */
+    --waas-bg: var(--waas-gray-1);
+    --waas-bg-subtle: var(--waas-gray-2);
+    --waas-surface: var(--waas-gray-3);
+    --waas-surface-hover: var(--waas-gray-4);
+    --waas-surface-active: var(--waas-gray-5);
+    --waas-surface-solid: var(--waas-accent-9);
+    --waas-surface-solid-hover: var(--waas-accent-10);
+
+    /* ---------- semantic roles: text ---------- */
+    --waas-text: var(--waas-gray-12);
+    --waas-text-contrast: var(--waas-gray-12);
+    --waas-text-subtle: var(--waas-gray-11);
+
+    /* ---------- semantic roles: borders, inputs, ring ---------- */
+    --waas-border-subtle: var(--waas-gray-6);
+    --waas-border: var(--waas-gray-7);
+    --waas-border-strong: var(--waas-gray-8);
+    --waas-input: var(--waas-gray-7);
+    --waas-ring: var(--waas-accent-8);
+
+    /* ---------- semantic roles: on-colors ---------- */
+    --waas-on-accent: #ffffff;
+    --waas-on-success: #ffffff;
+    --waas-on-warning: #3b2e00;
+    --waas-on-danger: #ffffff;
+    --waas-on-info: #ffffff;
+
+    /* ---------- overlay scrim ---------- */
+    --waas-overlay: rgb(17 20 26 / 0.5);
+
+    /* ---------- typography primitives ---------- */
+    --waas-font-sans: system-ui, "Segoe UI", Roboto, sans-serif;
+    --waas-font-serif: Georgia, "Times New Roman", serif;
+    --waas-font-mono: ui-monospace, SFMono-Regular, Consolas, monospace;
+
+    --waas-fs-display: clamp(2.5rem, 5vw, 3.5rem);
+    --waas-fs-h1: clamp(2rem, 4vw, 2.75rem);
+    --waas-fs-h2: clamp(1.5rem, 3vw, 2rem);
+    --waas-fs-h3: 1.375rem;
+    --waas-fs-title: 1.125rem;
+    --waas-fs-body-lg: 1.0625rem;
+    --waas-fs-body: 0.9375rem;
+    --waas-fs-body-sm: 0.8125rem;
+    --waas-fs-caption: 0.75rem;
+    --waas-fs-overline: 0.6875rem;
+
+    --waas-lh-tight: 1.2;
+    --waas-lh-base: 1.5;
+    --waas-lh-loose: 1.65;
+
+    --waas-tracking-tight: -0.02em;
+    --waas-tracking-base: 0em;
+    --waas-tracking-wide: 0.06em;
+
+    --waas-weight-regular: 400;
+    --waas-weight-medium: 500;
+    --waas-weight-semibold: 600;
+    --waas-weight-bold: 700;
+
+    /* ---------- typography roles (composite) ---------- */
+    --waas-font-display: var(--waas-weight-bold) var(--waas-fs-display) / var(--waas-lh-tight) var(--waas-font-sans);
+    --waas-font-h1: var(--waas-weight-bold) var(--waas-fs-h1) / var(--waas-lh-tight) var(--waas-font-sans);
+    --waas-font-h2: var(--waas-weight-bold) var(--waas-fs-h2) / var(--waas-lh-tight) var(--waas-font-sans);
+    --waas-font-h3: var(--waas-weight-semibold) var(--waas-fs-h3) / var(--waas-lh-tight) var(--waas-font-sans);
+    --waas-font-title: var(--waas-weight-semibold) var(--waas-fs-title) / var(--waas-lh-base) var(--waas-font-sans);
+    --waas-font-body-lg: var(--waas-weight-regular) var(--waas-fs-body-lg) / var(--waas-lh-loose) var(--waas-font-sans);
+    --waas-font-body: var(--waas-weight-regular) var(--waas-fs-body) / var(--waas-lh-base) var(--waas-font-sans);
+    --waas-font-body-sm: var(--waas-weight-regular) var(--waas-fs-body-sm) / var(--waas-lh-base) var(--waas-font-sans);
+    --waas-font-caption: var(--waas-weight-regular) var(--waas-fs-caption) / var(--waas-lh-base) var(--waas-font-sans);
+    --waas-font-overline: var(--waas-weight-semibold) var(--waas-fs-overline) / var(--waas-lh-base) var(--waas-font-sans);
+
+    /* ---------- spacing (4px-base geometric ramp) ---------- */
+    --waas-space-xs: 4px;
+    --waas-space-sm: 8px;
+    --waas-space-md: 12px;
+    --waas-space-lg: 16px;
+    --waas-space-xl: 24px;
+    --waas-space-2xl: 32px;
+    --waas-space-3xl: 48px;
+    --waas-space-4xl: 64px;
+
+    /* ---------- radius (derived from one base) ---------- */
+    --waas-radius: 8px;
+    --waas-radius-none: 0;
+    --waas-radius-sm: calc(var(--waas-radius) * 0.6);
+    --waas-radius-md: calc(var(--waas-radius) * 0.8);
+    --waas-radius-lg: var(--waas-radius);
+    --waas-radius-xl: calc(var(--waas-radius) * 1.4);
+    --waas-radius-full: 1e5px;
+
+    /* ---------- elevation (adaptive shadow primitives) ---------- */
+    --waas-shadow-color: 220 3% 15%;
+    --waas-shadow-strength: 1%;
+    --waas-elevation-none: none;
+    --waas-elevation-xs: 0 1px 2px 0 hsl(var(--waas-shadow-color) / calc(var(--waas-shadow-strength) + 9%));
+    --waas-elevation-sm:
+      0 1px 2px 0 hsl(var(--waas-shadow-color) / calc(var(--waas-shadow-strength) + 9%)),
+      0 1px 3px 1px hsl(var(--waas-shadow-color) / calc(var(--waas-shadow-strength) + 5%));
+    --waas-elevation-md:
+      0 1px 3px 0 hsl(var(--waas-shadow-color) / calc(var(--waas-shadow-strength) + 9%)),
+      0 4px 8px 3px hsl(var(--waas-shadow-color) / calc(var(--waas-shadow-strength) + 5%));
+    --waas-elevation-lg:
+      0 2px 6px 2px hsl(var(--waas-shadow-color) / calc(var(--waas-shadow-strength) + 9%)),
+      0 8px 16px 6px hsl(var(--waas-shadow-color) / calc(var(--waas-shadow-strength) + 5%));
+    --waas-elevation-xl:
+      0 4px 12px 4px hsl(var(--waas-shadow-color) / calc(var(--waas-shadow-strength) + 9%)),
+      0 16px 32px 12px hsl(var(--waas-shadow-color) / calc(var(--waas-shadow-strength) + 5%));
+
+    /* ---------- motion (tiered durations + eases) ---------- */
+    --waas-duration-instant: 0ms;
+    --waas-duration-fast: 120ms;
+    --waas-duration-base: 200ms;
+    --waas-duration-slow: 350ms;
+    --waas-duration-slower: 500ms;
+    --waas-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+    --waas-ease-in: cubic-bezier(0.4, 0, 1, 1);
+    --waas-ease-out: cubic-bezier(0, 0, 0.2, 1);
+    --waas-ease-spring: linear(0, 0.5 10%, 1);
+
+    /* ---------- breakpoints (values, not variants) ---------- */
+    --waas-bp-mobile: 480px;
+    --waas-bp-tablet: 768px;
+    --waas-bp-desktop: 1024px;
+    --waas-bp-wide: 1440px;
+    --waas-bp-large: 1920px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :where(:root) {
+    --waas-duration-fast: var(--waas-duration-instant);
+    --waas-duration-base: var(--waas-duration-instant);
+    --waas-duration-slow: var(--waas-duration-instant);
+    --waas-duration-slower: var(--waas-duration-instant);
+  }
+}

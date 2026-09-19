@@ -1,0 +1,78 @@
+/* waas-ui theme remaps — same variable names, per-theme values (mutable aliases).
+ * Primary switch: [data-theme="light" | "dark" | "<brand>"].
+ * `.dark` / `.dark-theme` are zero-cost alias selectors for Radix/shadcn interop.
+ * `prefers-color-scheme` applies only when no explicit data-theme is set.
+ */
+
+@layer waas.tokens {
+  :where(:root),
+  :where([data-theme="light"]) {
+    color-scheme: light;
+  }
+
+  :where([data-theme="dark"], .dark, .dark-theme) {
+    color-scheme: dark;
+
+    --waas-bg: var(--waas-gray-12);
+    --waas-bg-subtle: #26262e;
+    --waas-surface: #30303a;
+    --waas-surface-hover: #3a3a45;
+    --waas-surface-active: #454552;
+    --waas-surface-solid: var(--waas-accent-9);
+    --waas-surface-solid-hover: var(--waas-accent-8);
+
+    --waas-text: var(--waas-gray-1);
+    --waas-text-contrast: #ffffff;
+    --waas-text-subtle: var(--waas-gray-8);
+
+    --waas-border-subtle: #3a3a45;
+    --waas-border: #454552;
+    --waas-border-strong: #555563;
+    --waas-input: #454552;
+    --waas-ring: var(--waas-accent-7);
+
+    --waas-overlay: rgb(0 0 0 / 0.65);
+
+    --waas-shadow-color: 220 40% 2%;
+    --waas-shadow-strength: 25%;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :where(:root:not([data-theme])) {
+      color-scheme: dark;
+
+      --waas-bg: var(--waas-gray-12);
+      --waas-bg-subtle: #26262e;
+      --waas-surface: #30303a;
+      --waas-surface-hover: #3a3a45;
+      --waas-surface-active: #454552;
+      --waas-text: var(--waas-gray-1);
+      --waas-text-subtle: var(--waas-gray-8);
+      --waas-border: #454552;
+      --waas-input: #454552;
+      --waas-overlay: rgb(0 0 0 / 0.65);
+      --waas-shadow-color: 220 40% 2%;
+      --waas-shadow-strength: 25%;
+    }
+  }
+
+  /* Brand themes compose with light/dark: [data-theme="dark"][data-brand="acme"].
+   * Brand onboarding = re-point accent + radius + font stacks. No source edits. */
+  :where([data-brand="acme"]) {
+    --waas-accent-9: #0d74ce;
+    --waas-accent-10: #0588f0;
+    --waas-accent-11: #0d5fa8;
+    --waas-surface-solid: var(--waas-accent-9);
+    --waas-surface-solid-hover: var(--waas-accent-10);
+    --waas-ring: var(--waas-accent-8);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :where(:root) *,
+    :where(:root) *::before,
+    :where(:root) *::after {
+      animation-duration: var(--waas-duration-instant);
+      transition-duration: var(--waas-duration-instant);
+    }
+  }
+}

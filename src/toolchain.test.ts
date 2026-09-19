@@ -65,7 +65,7 @@ describe("toolchain", () => {
     expect(paths).toContain("dist/index.d.ts");
     expect(paths).toContain("dist/index.d.cts");
     run("npx", ["publint"]);
-    run("npx", ["attw", "--pack", "."]);
+    run("npx", ["attw", "--pack", ".", "--entrypoints", "."]);
   });
 
   it("imports the packed tarball entry from Node", () => {
@@ -76,6 +76,7 @@ describe("toolchain", () => {
       const probeDir = `${root}/node_modules/.tmp/pack-probe`;
       run("mkdir", ["-p", probeDir]);
       run("tar", ["-xzf", `${root}/${tarball}`, "-C", probeDir]);
+      run("ln", ["-sfn", `${root}/node_modules`, `${probeDir}/node_modules`]);
       const esm = run("node", [
         "--input-type=module",
         "-e",
