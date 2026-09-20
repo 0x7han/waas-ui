@@ -1,0 +1,166 @@
+/* Dev-only playground styles. Never shipped: playground/ is excluded from the
+ * published package (no dist entry, no exports subpath). */
+.pg-root {
+  min-height: 100vh;
+  background: var(--waas-bg);
+  color: var(--waas-text);
+  font: var(--waas-font-body);
+}
+
+.pg-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: var(--waas-space-md);
+  padding: var(--waas-space-md) var(--waas-space-xl);
+  background: var(--waas-bg-subtle);
+  border-bottom: 1px solid var(--waas-border-subtle);
+}
+
+.pg-brand {
+  font: var(--waas-font-title);
+  margin: 0;
+}
+
+.pg-brand small {
+  display: block;
+  font: var(--waas-font-caption);
+  color: var(--waas-text-subtle);
+  font-weight: var(--waas-weight-regular);
+}
+
+.pg-topbar-spacer {
+  flex: 1;
+}
+
+.pg-theme-toggle {
+  display: flex;
+  border: 1px solid var(--waas-border);
+  border-radius: var(--waas-radius-full);
+  overflow: hidden;
+}
+
+.pg-theme-toggle button {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--waas-text-subtle);
+  font: var(--waas-weight-semibold) var(--waas-fs-body-sm) / 1 var(--waas-font-sans);
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+.pg-theme-toggle button[aria-pressed="true"] {
+  background: var(--waas-surface-solid);
+  color: var(--waas-on-accent);
+}
+
+.pg-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  align-items: start;
+}
+
+.pg-nav {
+  position: sticky;
+  top: 57px;
+  max-height: calc(100vh - 57px);
+  overflow: auto;
+  padding: var(--waas-space-lg);
+  border-right: 1px solid var(--waas-border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pg-nav a {
+  color: var(--waas-text-subtle);
+  text-decoration: none;
+  font: var(--waas-weight-medium) var(--waas-fs-body-sm) / 1.5 var(--waas-font-sans);
+  padding: 6px 10px;
+  border-radius: var(--waas-radius-md);
+}
+
+.pg-nav a:hover {
+  background: var(--waas-surface);
+  color: var(--waas-text);
+}
+
+.pg-main {
+  padding: var(--waas-space-xl);
+  max-width: 960px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--waas-space-2xl);
+}
+
+.pg-section {
+  scroll-margin-top: 70px;
+}
+
+.pg-section > h2 {
+  font: var(--waas-font-h2);
+  margin: 0 0 4px;
+}
+
+.pg-section > p {
+  color: var(--waas-text-subtle);
+  font: var(--waas-font-body-sm);
+  margin: 0 0 var(--waas-space-lg);
+}
+
+.pg-demo {
+  background: var(--waas-bg-subtle);
+  border: 1px solid var(--waas-border-subtle);
+  border-radius: var(--waas-radius-lg);
+  padding: var(--waas-space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--waas-space-md);
+  margin-bottom: var(--waas-space-md);
+}
+
+.pg-demo > h3 {
+  font: var(--waas-weight-semibold) var(--waas-fs-body-sm) / 1.2 var(--waas-font-sans);
+  text-transform: uppercase;
+  letter-spacing: var(--waas-tracking-wide);
+  color: var(--waas-text-subtle);
+  margin: 0;
+}
+
+.pg-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--waas-space-sm);
+  align-items: center;
+}
+
+.pg-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--waas-space-md);
+}
+
+@media (max-width: 720px) {
+  .pg-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .pg-nav {
+    position: static;
+    max-height: none;
+    border-right: none;
+    border-bottom: 1px solid var(--waas-border-subtle);
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pg-root * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

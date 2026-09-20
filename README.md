@@ -103,3 +103,15 @@ npm run build
 
 Release gates: `npm run pack:check`, `npx publint`,
 `npx attw --pack . --entrypoints . ./button ./form ./selection ./navigation ./overlay ./data`.
+
+## Playground
+
+Local dev-only gallery of every component family with Light/Dark/Brand
+switching. Never published to NPM (no `dist` entry, no exports subpath).
+
+```bash
+npm ci
+npm run dev
+```
+
+Then open `http://localhost:5173/?playground`.
