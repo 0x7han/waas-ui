@@ -93,6 +93,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && tsdown && node scripts/copy-css.mjs",
+    "prepare": "npm run build",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",

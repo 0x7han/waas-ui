@@ -1,78 +1,105 @@
-# React + TypeScript + Vite
+# waas-ui
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Reusable React UI/UX component library for SaaS applications — admin
+dashboards, B2B tools, billing apps, and data-heavy internal products.
+Vanilla CSS + CSS variables theming, accessible compound components built
+on Radix primitives, one package with per-component subpath exports.
 
-Currently, two official plugins are available:
+> NPM publication is deferred. Install from GitHub until the registry
+> release (see [ADR-0001](docs/adr/0001-defer-npm-publish-github-install.md)).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Install
 
-## React Compiler
-
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
-
-Note: This will impact Vite dev & build performances.
-You can also try [the experimental native React Compiler support in plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#rust-react-compiler) by using `compiler: true` in the plugin options instead of using the Babel plugin.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install github:0x7han/waas-ui#v0.1.0
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+The `prepare` script builds `dist/` on install, so no build step is needed
+afterwards. Requires Node 18+.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+To follow `main` instead of a tag (not recommended for production):
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install github:0x7han/waas-ui
 ```
+
+## Setup
+
+Import the tokens once, then the component styles you use:
+
+```tsx
+import "waas-ui/tokens";
+import "waas-ui/theme.css";
+import "waas-ui/button/style.css";
+```
+
+Wrap your app in the theme provider:
+
+```tsx
+import { ThemeProvider } from "waas-ui";
+
+<ThemeProvider theme="light">
+  <App />
+</ThemeProvider>;
+```
+
+Switch themes with the `theme` prop (`"light"`, `"dark"`, or a brand key)
+plus the optional `brand` prop. The provider sets `data-theme` /
+`data-brand` on `<html>` and keeps the `.dark` alias in sync for
+Radix/shadcn interop. OS color-scheme is the fallback when no theme is set.
+
+## Usage
+
+```tsx
+import { Button } from "waas-ui/button";
+import { ThemeProvider } from "waas-ui";
+
+<ThemeProvider theme="dark">
+  <Button variant="primary" onClick={save}>
+    Save
+  </Button>
+</ThemeProvider>;
+```
+
+Available subpaths: `waas-ui` (root barrel), `waas-ui/button`,
+`waas-ui/form`, `waas-ui/selection`, `waas-ui/navigation`,
+`waas-ui/overlay`, `waas-ui/data` — each with a matching
+`<name>/style.css` stylesheet, plus `waas-ui/tokens` and
+`waas-ui/theme.css`.
+
+Pass your own icons into `icon` slots — the library never bundles an
+icon set:
+
+```tsx
+import { Button } from "waas-ui/button";
+import { SaveIcon } from "./icons";
+
+<Button icon={<SaveIcon />}>Save</Button>;
+```
+
+## Theming
+
+Override any `--waas-*` token without touching library source:
+
+```css
+:root {
+  --waas-accent-9: #0d74ce;
+  --waas-radius: 10px;
+}
+```
+
+Brand themes compose with light/dark via `[data-theme][data-brand]`.
+Tailwind users can map tokens through `@theme inline` — no Tailwind
+dependency is required. See
+[docs/research/token-theming.md](docs/research/token-theming.md).
+
+## Development
+
+```bash
+npm ci
+npm test -- --run
+npm run build
+```
+
+Release gates: `npm run pack:check`, `npx publint`,
+`npx attw --pack . --entrypoints . ./button ./form ./selection ./navigation ./overlay ./data`.
