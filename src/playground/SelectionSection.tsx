@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Checkbox, RadioGroup, RadioItem, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Switch } from "../components/selection";
+import { Checkbox, RadioGroup, RadioItem, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue, Switch } from "../components/selection";
 import { Demo, Section } from "./Section";
 
 export function SelectionSection() {
@@ -14,9 +14,15 @@ export function SelectionSection() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="admin">Admin</SelectItem>
-              <SelectItem value="editor">Editor</SelectItem>
-              <SelectItem value="viewer">Viewer</SelectItem>
+              <SelectGroup>
+                <SelectLabel>Team roles</SelectLabel>
+                <SelectItem value="admin">Admin</SelectItem>
+                <SelectItem value="editor">Editor</SelectItem>
+              </SelectGroup>
+              <SelectGroup>
+                <SelectLabel>External</SelectLabel>
+                <SelectItem value="viewer">Viewer</SelectItem>
+              </SelectGroup>
             </SelectContent>
           </Select>
           <Switch checked={switched} onCheckedChange={setSwitched} aria-label="Email notifications" />

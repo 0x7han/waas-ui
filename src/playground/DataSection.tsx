@@ -17,11 +17,13 @@ export function DataSection() {
             <StatCard.Label>Revenue</StatCard.Label>
             <StatCard.Value>$24,560</StatCard.Value>
             <StatCard.Delta trend="up">+12.5%</StatCard.Delta>
+            <StatCard.Hint>vs last month</StatCard.Hint>
           </StatCard.Root>
           <StatCard.Root>
             <StatCard.Label>Churn</StatCard.Label>
             <StatCard.Value>1.8%</StatCard.Value>
             <StatCard.Delta trend="down">-0.4%</StatCard.Delta>
+            <StatCard.Hint>vs last quarter</StatCard.Hint>
           </StatCard.Root>
         </div>
       </Demo>
@@ -29,9 +31,13 @@ export function DataSection() {
         <Table.Root mobileStrategy="scroll">
           <Table.Toolbar>
             <Table.Search placeholder="Search members…" aria-label="Search members" />
+            <Table.Filters aria-label="Role filters">
+              <Button variant="outline">All roles</Button>
+            </Table.Filters>
             <Table.Pagination aria-label="Table pages" />
           </Table.Toolbar>
           <Table scrollLabel="Team members">
+            <Table.Caption>Team members and their roles.</Table.Caption>
             <Table.Head>
               <Table.Row>
                 <Table.HeaderCell>Name</Table.HeaderCell>
@@ -68,9 +74,13 @@ export function DataSection() {
               </EmptyState.Actions>
             </EmptyState.Root>
           </Card.Content>
+          <Card.Footer>
+            <Button variant="ghost">View archive</Button>
+          </Card.Footer>
         </Card.Root>
         <div className="pg-row">
-          <Avatar.Root aria-label="Ada">
+          <Avatar.Root aria-label="Ada Lovelace">
+            <Avatar.Image src="/favicon.svg" alt="Ada Lovelace" />
             <Avatar.Fallback>AD</Avatar.Fallback>
           </Avatar.Root>
           <Badge variant="info">

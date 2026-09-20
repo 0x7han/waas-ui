@@ -1,4 +1,4 @@
-import { Alert, Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger, Drawer, DrawerContent, DrawerDescription, DrawerTitle, DrawerTrigger, Dropdown, DropdownContent, DropdownItem, DropdownTrigger, Popover, PopoverContent, PopoverTrigger, Progress, ToastProvider, toast } from "../components/overlay";
+import { Alert, AlertDescription, AlertTitle, Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle, DialogTrigger, Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerTitle, DrawerTrigger, Dropdown, DropdownContent, DropdownItem, DropdownSeparator, DropdownTrigger, Popover, PopoverClose, PopoverContent, PopoverTrigger, Progress, ToastProvider, ToastViewport, toast } from "../components/overlay";
 import { Button } from "../components/button";
 import { Demo, Section } from "./Section";
 
@@ -16,6 +16,9 @@ export function OverlaySection() {
               <DialogDescription>Add someone to the Acme workspace.</DialogDescription>
               <div className="pg-row">
                 <Button>Send invite</Button>
+                <DialogClose asChild>
+                  <Button variant="ghost">Cancel</Button>
+                </DialogClose>
               </div>
             </DialogContent>
           </Dialog>
@@ -26,6 +29,11 @@ export function OverlaySection() {
             <DrawerContent>
               <DrawerTitle>Settings</DrawerTitle>
               <DrawerDescription>Workspace preferences live here.</DrawerDescription>
+              <div className="pg-row">
+                <DrawerClose asChild>
+                  <Button variant="ghost">Close</Button>
+                </DrawerClose>
+              </div>
             </DrawerContent>
           </Drawer>
           <Popover>
@@ -34,6 +42,11 @@ export function OverlaySection() {
             </PopoverTrigger>
             <PopoverContent>
               <p>Filter panel content.</p>
+              <div className="pg-row">
+                <PopoverClose asChild>
+                  <Button variant="ghost">Dismiss</Button>
+                </PopoverClose>
+              </div>
             </PopoverContent>
           </Popover>
           <Dropdown>
@@ -43,12 +56,17 @@ export function OverlaySection() {
             <DropdownContent>
               <DropdownItem onSelect={() => toast({ title: "Profile opened" })}>Profile</DropdownItem>
               <DropdownItem onSelect={() => toast({ title: "Billing opened" })}>Billing</DropdownItem>
+              <DropdownSeparator />
+              <DropdownItem onSelect={() => toast({ title: "Signed out" })}>Sign out</DropdownItem>
             </DropdownContent>
           </Dropdown>
         </div>
       </Demo>
       <Demo title="Alert + Progress + Toast">
-        <Alert variant="warning">Your subscription will expire in 3 days.</Alert>
+        <Alert variant="warning">
+          <AlertTitle>Trial ending</AlertTitle>
+          <AlertDescription>Your subscription will expire in 3 days.</AlertDescription>
+        </Alert>
         <Progress value={65} label="Migration progress" />
         <Progress label="Loading indefinitely" />
         <div className="pg-row">
@@ -77,6 +95,11 @@ export function OverlaySection() {
             </CommandGroup>
           </CommandList>
         </Command>
+      </Demo>
+      <Demo title="Toast viewport">
+        <ToastProvider viewportClassName="pg-toast-viewport">
+          <ToastViewport aria-label="Demo toasts" />
+        </ToastProvider>
       </Demo>
       <ToastProvider />
     </Section>

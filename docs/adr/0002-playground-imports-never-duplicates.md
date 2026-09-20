@@ -1,4 +1,4 @@
-# Playground imports components, never duplicates; gallery coverage is curated
+# Playground imports components, never duplicates; every export is showcased
 
 The dev-only gallery under `src/playground/` renders the real components by
 importing them from `src/components/` (and the source stylesheets from
@@ -7,14 +7,18 @@ copied into the gallery, so edits to a component or its tokens appear in the
 playground automatically through the normal module graph and HMR. There is
 no sync step and no codegen.
 
-Gallery *coverage*, however, is curated, not mirrored: each family has an
-explicit `*Section.tsx` maintained by hand. Adding a component makes its
-rendering available, but it appears in the gallery only once someone adds a
-`<Demo>` block for it in the relevant section.
+Gallery coverage is **mandatory, not best-effort**: every public export —
+every component and every compound part — MUST appear in the gallery. Each
+family keeps an explicit `*Section.tsx` maintained by hand. Adding a
+component or compound part makes its rendering available, but it counts as
+showcased only once a `<Demo>` block renders it in the relevant section.
+A component ships if and only if its demo ships with it.
 
 ## Decision
 
 - Stay with explicit curated sections (option A) for the ~25-component MVP.
+- Every public export MUST be showcased: the gallery is a release gate, not
+  a courtesy. Review checklists treat a missing `<Demo>` like a missing test.
 - If demos repeatedly lag behind new components (two or three releases in a
   row ship without gallery entries), graduate to co-located demos (option B):
   each component ships a `*.demo.tsx` beside its source and the gallery
@@ -27,7 +31,7 @@ rendering available, but it appears in the gallery only once someone adds a
 
 ## Consequences
 
-- Component changes need zero gallery maintenance; only new components (or
-  new states worth showcasing) require a `<Demo>` addition.
+- Component changes need zero gallery maintenance; new components or parts
+  require a `<Demo>` in the same change — no demo, no merge.
 - Moving to option B later is a pure addition (registry + glob loader) with
   no changes to existing components.
