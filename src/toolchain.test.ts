@@ -50,7 +50,9 @@ describe("toolchain", () => {
 
   it("passes pack gates: publint and attw on the packed tarball", () => {
     run("npm", ["run", "build"]);
-    const packOut = run("npm", ["pack", "--dry-run", "--json"]);
+    // --ignore-scripts: pack would otherwise re-run `prepare` (npm run build)
+    // and its tsdown log lines would pollute the --json stdout.
+    const packOut = run("npm", ["pack", "--dry-run", "--json", "--ignore-scripts"]);
     const entry = JSON.parse(packOut) as Record<string, { files: { path: string }[] }>;
     const first = Object.values(entry)[0];
     const paths = first?.files.map((f) => f.path) ?? [];

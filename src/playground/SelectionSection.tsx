@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Checkbox, RadioGroup, RadioItem, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue, Switch } from "../components/selection";
+import { Checkbox, RadioGroup, RadioGroupItem, RadioItem, Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue, Switch } from "../components/selection";
 import { Demo, Section } from "./Section";
 
 export function SelectionSection() {
@@ -34,7 +34,7 @@ export function SelectionSection() {
           <div className="pg-row">
             <RadioItem value="monthly" id="pg-radio-monthly" />
             <label htmlFor="pg-radio-monthly">Monthly</label>
-            <RadioItem value="yearly" id="pg-radio-yearly" />
+            <RadioGroupItem value="yearly" id="pg-radio-yearly" />
             <label htmlFor="pg-radio-yearly">Yearly</label>
           </div>
         </RadioGroup>

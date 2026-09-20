@@ -18,7 +18,12 @@ A component ships if and only if its demo ships with it.
 
 - Stay with explicit curated sections (option A) for the ~25-component MVP.
 - Every public export MUST be showcased: the gallery is a release gate, not
-  a courtesy. Review checklists treat a missing `<Demo>` like a missing test.
+  a courtesy. Enforcement is automated, not a checklist:
+  `src/playground/coverage.test.ts` scans every family barrel for public
+  value exports and fails when one has no `<Demo>` reference in the gallery.
+  Helpers, hooks, and stores (`useFormField`, `getPaginationItems`,
+  `createToastStore`, `toast`, …) are allow-listed as non-visual; compound
+  aliases (`FormField.*`, `RadioGroupItem`) count through their namespace.
 - If demos repeatedly lag behind new components (two or three releases in a
   row ship without gallery entries), graduate to co-located demos (option B):
   each component ships a `*.demo.tsx` beside its source and the gallery
