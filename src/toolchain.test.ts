@@ -8,17 +8,21 @@ import { WAAS_UI_VERSION } from "./index";
 
 const root = join(dirname(new URL(import.meta.url).pathname), "..");
 
-describe("render harness", () => {
-  it("renders library output through Testing Library", () => {
-    render(createElement("output", { "aria-label": "version" }, WAAS_UI_VERSION));
-    expect(screen.getByLabelText("version").textContent).toBe("0.1.0");
-  });
-});
-
 function readJson(path: string): Record<string, unknown> {
   const text = readFileSync(path, "utf8").replace(/\/\*[\s\S]*?\*\//g, "");
   return JSON.parse(text) as Record<string, unknown>;
 }
+
+const pkgJson = readJson(`${root}/package.json`);
+const pkgVersion = typeof pkgJson["version"] === "string" ? pkgJson["version"] : "";
+
+describe("render harness", () => {
+  it("renders library output through Testing Library", () => {
+    render(createElement("output", { "aria-label": "version" }, WAAS_UI_VERSION));
+    expect(screen.getByLabelText("version").textContent).toBe(pkgVersion);
+  });
+});
+
 
 function run(cmd: string, args: string[]): string {
   return execFileSync(cmd, args, {
@@ -67,7 +71,7 @@ describe("toolchain", () => {
     expect(paths).toContain("dist/index.d.ts");
     expect(paths).toContain("dist/index.d.cts");
     run("npx", ["publint"]);
-    run("npx", ["attw", "--pack", ".", "--entrypoints", "."]);
+    run("npx", ["attw", "--pack", ".", "--profile", "node16", "--entrypoints", ".", "./button", "./form", "./selection", "./navigation", "./overlay", "./data"]);
   });
 
   it("imports the packed tarball entry from Node", () => {
@@ -82,12 +86,12 @@ describe("toolchain", () => {
       const esm = run("node", [
         "--input-type=module",
         "-e",
-        `import { WAAS_UI_VERSION } from ${JSON.stringify(`${probeDir}/package/dist/index.js`)}; if (WAAS_UI_VERSION !== "0.1.0") throw new Error("bad version");`,
+        `import { WAAS_UI_VERSION } from ${JSON.stringify(`${probeDir}/package/dist/index.js`)}; if (WAAS_UI_VERSION !== ${JSON.stringify(pkgVersion)}) throw new Error("bad version");`,
       ]);
       expect(typeof esm).toBe("string");
       const cjs = run("node", [
         "-e",
-        `const m = require(${JSON.stringify(`${probeDir}/package/dist/index.cjs`)}); if (m.WAAS_UI_VERSION !== "0.1.0") throw new Error("bad version");`,
+        `const m = require(${JSON.stringify(`${probeDir}/package/dist/index.cjs`)}); if (m.WAAS_UI_VERSION !== ${JSON.stringify(pkgVersion)}) throw new Error("bad version");`,
       ]);
       expect(typeof cjs).toBe("string");
     } finally {

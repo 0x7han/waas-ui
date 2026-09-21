@@ -11,7 +11,7 @@ on Radix primitives, one package with per-component subpath exports.
 ## Install
 
 ```bash
-npm install github:0x7han/waas-ui#v0.1.0
+npm install github:0x7han/waas-ui#v0.1.1
 ```
 
 The `prepare` script builds `dist/` on install, so no build step is needed
