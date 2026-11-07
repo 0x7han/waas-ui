@@ -1,32 +1,39 @@
-# React + TypeScript + Vite
+# waas-ui
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Frontend Wallet-as-a-Service (WaaS) — React 19 + TypeScript + Vite.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React 19, react-router 8
+- Vite 8, Vitest 5 + Testing Library (jsdom)
+- Oxlint, TypeScript 7
 
-## React Compiler
+## Scripts
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Script | Perintah |
+|---|---|
+| Dev | `npm run dev` |
+| Build | `npm run build` |
+| Test | `npm run test` (`vitest run`) |
+| Test watch | `npm run test:watch` |
+| Lint | `npm run lint` |
+| Preview | `npm run preview` |
 
-## Expanding the Oxlint configuration
+## Struktur
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```
+src/
+  app/        Routes (router.tsx) + router test
+  pages/      HomePage, NotFoundPage (+ test)
+  components/ Komponen reusable (sekarang kosong)
+  hooks/      Custom hooks (sekarang kosong)
+  lib/        Util / API client (sekarang kosong)
+  test/       Setup Vitest (jest-dom, cleanup)
+  assets/     Aset statis
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Path alias `@/` → `src/` (Vite + `tsconfig.app.json`).
+
+## Skills
+
+Terpasang di `.agents/skills/`: `vite`, `vitest` (antfu/skills), `frontend-design` (anthropics/skills).
